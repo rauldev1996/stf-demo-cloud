@@ -1,0 +1,56 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI GKE GCloud DEMO
+
+on:
+  push:
+    branches: [main]
+  pull_request: 
+    branches: [main]
+
+  workflow_dispatch:
+
+env:
+   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}    # TODO: update to cluster name
+   GKE_ZONE: ${{ secrets.GKE_PROJECT_ZONE }}   # TODO: update to cluster zone
+   DEPLOYMENT_NAME: gke-hello-app # TODO: update to deployment name
+
+jobs:
+  build:
+    name: Setup, and Deploy
+    runs-on: ubuntu-latest
+    #environment: dev
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Configure Workload Identity Federation and generate an access token.
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: '${{ secrets.GKE_CREDENTIALS }}'
+
+    - name: Docker configuration
+      uses: google-github-actions/get-gke-credentials@v0
+
+#--------- Get the GKE credentials so we can deploy to the cluster
+    # - name: Set up GKE credentials
+    #   uses: google-github-actions/get-gke-credentials@v0
+      with:
+        cluster_name: ${{ secrets.GKE_CLUSTER }}
+        # location: ${{ secrets.GKE_ZONE }}
+        location: us-central1
+#--------
+    - run: |-
+        gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+    - name: deploy
+      run: |-
+          kubectl apply -f deployment.yml
+          kubectl rollout status deployment/$DEPLOYMENT_NAME
+          kubectl get services -o wide
