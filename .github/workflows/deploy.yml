@@ -11,7 +11,6 @@ on:
   workflow_dispatch:
 
 env:
-   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
    GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}    # TODO: update to cluster name
    GKE_ZONE: ${{ secrets.GKE_PROJECT_ZONE }}   # TODO: update to cluster zone
    DEPLOYMENT_NAME: gke-hello-app # TODO: update to deployment name
