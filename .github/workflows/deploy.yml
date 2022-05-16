@@ -12,8 +12,8 @@ on:
 
 env:
    PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}    # TODO: update to cluster name
-   GKE_ZONE: ${{ secrets.GKE_PROJECT_ZONE }}   # TODO: update to cluster zone
+   GKE_CLUSTER: gks-demo-dev    # TODO: update to cluster name
+   GKE_ZONE: us-central1-a   # TODO: update to cluster zone
    DEPLOYMENT_NAME: gke-hello-app # TODO: update to deployment name
 
 jobs:
@@ -48,7 +48,7 @@ jobs:
         location: us-central1
 #--------
     - run: |-
-        gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project taller-cloud-350117
+        gcloud container clusters get-credentials "cluster-1" --zone "us-central1-c"
     - name: deploy
       run: |-
           kubectl apply -f deployment.yml
