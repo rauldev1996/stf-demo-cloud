@@ -3,7 +3,7 @@ variable "name" {
 }
 
 variable "project" {
-  default = "taller-cloud"
+  default = "taller-cloud-350117"
 }
 
 variable "machine_type" {
@@ -11,7 +11,7 @@ variable "machine_type" {
 }
 
 variable "location" {
-  default = "us-central1"
+  default = "us-central1-c"
 }
 
 variable "initial_node_count" {
