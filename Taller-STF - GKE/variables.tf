@@ -11,7 +11,7 @@ variable "machine_type" {
 }
 
 variable "location" {
-  default = "us-central1-c"
+  default = "us-central1"
 }
 
 variable "initial_node_count" {
