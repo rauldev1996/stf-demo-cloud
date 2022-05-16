@@ -48,7 +48,7 @@ jobs:
         location: us-central1
 #--------
     - run: |-
-        gcloud container clusters get-credentials "cluster-1" --zone "us-central1-c"
+        gcloud container clusters get-credentials "cluster-1" --zone "us-central1"
     - name: deploy
       run: |-
           kubectl apply -f deployment.yml
